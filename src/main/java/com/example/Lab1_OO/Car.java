@@ -71,6 +71,11 @@ public class Car {
         this.ifRented = ifRented;
     }
 
+    public void resetDates() {
+        ifRented.setBegin("");
+        ifRented.setEnd("");
+    }
+
     @Override
     public String toString() {
         return "plateNumber: " + plateNumber + "; brand: " + brand + "; price: " + price + " €                             ";

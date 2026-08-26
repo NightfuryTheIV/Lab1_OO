@@ -26,9 +26,4 @@ public class Dates {
     public void setEnd(String end) {
         this.end = end;
     }
-
-    public void resetDates() {
-        this.begin = "";
-        this.end = "";
-    }
 }

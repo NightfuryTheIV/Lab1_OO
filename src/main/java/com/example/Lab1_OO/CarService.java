@@ -97,7 +97,7 @@ public class CarService {
                     System.out.println("Check 6");
 
                     car.setAvailable(true);
-                    car.getIfRented().resetDates();
+                    car.resetDates();
                 }
                 break;
             }
