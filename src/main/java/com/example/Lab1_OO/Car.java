@@ -10,6 +10,8 @@ public class Car {
     private String brand;
     private String plateNumber;
     private int price;
+    private boolean available;
+    private Dates ifRented;
 
     public Car() {
         Random random = new Random();
@@ -24,15 +26,7 @@ public class Car {
         char letter3 = (char) ('A' + random.nextInt(26));
         char letter4 = (char) ('A' + random.nextInt(26));
         plateNumber = "" + letter1 + letter2 + "-" + number + "-" + letter3 + letter4;
-
-        CarService.cars.add(this);
-    }
-
-    public Car(String plate) {
-        plateNumber = "BB-887-MW";
-        List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
-        brand = possiblebrands.get(new Random().nextInt(possiblebrands.size()));
-        price = ThreadLocalRandom.current().nextInt(100000, 500000);
+        available = true;
 
         CarService.cars.add(this);
     }
@@ -61,8 +55,24 @@ public class Car {
         this.price = price;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public  Dates getIfRented() {
+        return ifRented;
+    }
+
+    public void setIfRented(Dates ifRented) {
+        this.ifRented = ifRented;
+    }
+
     @Override
     public String toString() {
-        return "plateNumber: " + plateNumber + "; brand: " + brand + "; price: " + price + " €\n";
+        return "plateNumber: " + plateNumber + "; brand: " + brand + "; price: " + price + " €                             ";
     }
 }
