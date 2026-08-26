@@ -78,7 +78,7 @@ public class CarService {
     }
 
     @PutMapping(value = "/cars/{plateNumber}")
-    public void rentReturn(
+    public Car rentReturn(
             @PathVariable("plateNumber") String plateNumber,
             @RequestParam(value="rent", required = true) boolean rent,
             @RequestBody Dates dates) {
@@ -92,15 +92,16 @@ public class CarService {
                     System.out.println("Check 2");
 
                     car.setAvailable(false);
-                    car.setIfRented(new Dates("10/12/2006", "20/12/2008"));
+                    car.setIfRented(dates);
                 } else {
                     System.out.println("Check 6");
 
                     car.setAvailable(true);
                     car.resetDates();
                 }
-                break;
+                return car;
             }
         }
+        return null;
     }
 }
