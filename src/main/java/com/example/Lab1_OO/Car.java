@@ -1,12 +1,10 @@
 package com.example.Lab1_OO;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Car {
     private String brand;
@@ -15,8 +13,10 @@ public class Car {
 
     public Car() {
         Random random = new Random();
-        brand = "Koeniggsegg";
-        price = ThreadLocalRandom.current().nextInt(100, 50000);
+
+        List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
+        brand = possiblebrands.get(random.nextInt(possiblebrands.size()));
+        price = ThreadLocalRandom.current().nextInt(100000, 500000);
 
         char letter1 = (char) ('A' + random.nextInt(26));
         char letter2 = (char) ('A' + random.nextInt(26));
@@ -24,15 +24,17 @@ public class Car {
         char letter3 = (char) ('A' + random.nextInt(26));
         char letter4 = (char) ('A' + random.nextInt(26));
         plateNumber = "" + letter1 + letter2 + "-" + number + "-" + letter3 + letter4;
+
         CarService.cars.add(this);
     }
 
     public Car(String plate) {
         plateNumber = "BB-887-MW";
-        List<String> possiblebrands = new ArrayList<>();
-        possiblebrands = ("Koeniggsegg", "Lotus", "Chevrolet", "", "", "", "", "", "", "");
-        brand = "Koeniggsegg";
-        price = ThreadLocalRandom.current().nextInt(100, 50000);
+        List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
+        brand = possiblebrands.get(new Random().nextInt(possiblebrands.size()));
+        price = ThreadLocalRandom.current().nextInt(100000, 500000);
+
+        CarService.cars.add(this);
     }
 
     public String getBrand() {
