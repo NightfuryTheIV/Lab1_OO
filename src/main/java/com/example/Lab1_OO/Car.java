@@ -89,6 +89,6 @@ public class Car {
         if (this.plateNumber.isEmpty()) {
             return "Sorry, we don't have this one in stock.";
         }
-        return "plateNumber: " + plateNumber + "; brand: " + brand + "; price: " + price + " €                             ";
+        return "<p>plateNumber: " + plateNumber + "</br>brand: " + brand + "</br>price: " + price + " €</p>";
     }
 }

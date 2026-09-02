@@ -5,17 +5,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 public class CarService {
     public static List<Car> cars;
 
     public String carsToString() {
-        String carsString = "";
+        String carsString = "<ul>";
+        String str1 = "";
+        String str2 = "";
         for (Car car : cars) {
-            carsString = carsString.concat(car.toString());
-            carsString = carsString.concat(" \n");
+            str1 = "</br><li><a href=/cars/%s style='color: #000000; text-decoration: none;'>";
+            str2 = String.format(str1, car.getPlatenumber());
+            carsString = carsString.concat(str2);
+            carsString = carsString.concat(car.getPlatenumber());
+            carsString = carsString.concat("</a></li>");
         }
+        carsString = carsString.concat("</ul>");
         return carsString;
     }
 
@@ -25,15 +32,10 @@ public class CarService {
     public String listOfCars() {
         cars = new ArrayList<>();
 
-        new Car();
-        new Car();
-        new Car();
-        new Car();
-        new Car();
-        new Car();
-        new Car();
-        new Car();
-        new Car();
+        for (int i = 0; i <= ThreadLocalRandom.current().nextInt(20, 50); i++) {
+            new Car();
+        }
+
 
         String html = "<html>" +
                 "<head>" +
