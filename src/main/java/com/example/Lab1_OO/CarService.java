@@ -41,7 +41,7 @@ public class CarService {
                 "</head>" +
                 "<body>" +
 
-                "<h1>List of cars</h1>" +
+                "<h1 style='text-align: center'>List of cars</h1>" +
 
                 "<p>" + carsToString() + "</p>" +
 
@@ -68,13 +68,13 @@ public class CarService {
     @GetMapping("/cars/{plateNumber}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception {
+    public String aCar(@PathVariable("plateNumber") String plateNumber) throws Exception {
         for (Car car : cars){
             if (Objects.equals(plateNumber, car.getPlatenumber())){
-                return car;
+                return car.toString();
             }
         }
-        return null;
+        return "Sorry, we don't have this one in stock.";
     }
 
     @PutMapping(value = "/cars/{plateNumber}")
@@ -82,19 +82,15 @@ public class CarService {
             @PathVariable("plateNumber") String plateNumber,
             @RequestParam(value="rent", required = true) boolean rent,
             @RequestBody Dates dates) {
-        System.out.println("Check 0");
 
         for (Car car : cars){
             if (Objects.equals(plateNumber, car.getPlatenumber())){
-                System.out.println("Check 1");
 
                 if (rent) {
-                    System.out.println("Check 2");
 
                     car.setAvailable(false);
                     car.setIfRented(dates);
                 } else {
-                    System.out.println("Check 6");
 
                     car.setAvailable(true);
                     car.resetDates();

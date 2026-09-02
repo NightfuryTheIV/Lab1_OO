@@ -31,6 +31,14 @@ public class Car {
         CarService.cars.add(this);
     }
 
+    public Car(int a) {
+        brand = "";
+        plateNumber = "";
+        price = a;
+        available = false;
+        ifRented = null;
+    }
+
     public String getBrand() {
         return brand;
     }
@@ -78,6 +86,9 @@ public class Car {
 
     @Override
     public String toString() {
+        if (this.plateNumber.isEmpty()) {
+            return "Sorry, we don't have this one in stock.";
+        }
         return "plateNumber: " + plateNumber + "; brand: " + brand + "; price: " + price + " €                             ";
     }
 }
