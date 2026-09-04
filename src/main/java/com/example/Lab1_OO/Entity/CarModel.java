@@ -24,6 +24,7 @@ public class CarModel {
         Random random = new Random();
         List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
         brand = possiblebrands.get(random.nextInt(possiblebrands.size()));
+        model = "TBD";
     }
 
     public CarModel(String brand, String model) {

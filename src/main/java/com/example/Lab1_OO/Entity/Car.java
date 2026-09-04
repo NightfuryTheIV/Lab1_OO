@@ -36,6 +36,9 @@ public class Car {
         char letter4 = (char) ('A' + random.nextInt(26));
         plateNumber = "" + letter1 + letter2 + "-" + number + "-" + letter3 + letter4;
 
+        carModel = new CarModel();
+        carModel.getId();
+
         CarServiceImpl.cars.add(this);
     }
 
@@ -55,7 +58,7 @@ public class Car {
         this.plateNumber = platenumber;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -73,10 +76,15 @@ public class Car {
 
     @Override
     public String toString() {
-        if (this.plateNumber.isEmpty()) {
-            return "Sorry, we don't have this one in stock.";
+        if (carModel == null) {
+            return "<p>plateNumber: " + plateNumber +
+                    "</br>brand: No model assigned" +
+                    "</br>price: " + price + " €</p>";
         }
-        return "<p>plateNumber: " + plateNumber + "</br>brand: " + carModel.getBrand() + "</br>price: " + price + " €</p>";
+
+        return "<p>plateNumber: " + plateNumber +
+                "</br>brand: " + carModel.getBrand() +
+                "</br>price: " + price + " €</p>";
     }
 
     public void makeNewContract() {

@@ -75,6 +75,7 @@ public class CarServiceImpl implements CarService {
         return html;
     }
 
+    @Override
     public Car plateNumberFind(String platenumber) {
         for (Car car : cars) {
             if (car.getPlatenumber().equals(platenumber)) {
@@ -115,7 +116,20 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public Car findById(long id) {
+        for (Car car : cars) {
+            if (car.getId() == id) {
+                return car;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void updateCar(long id, Car car) {
-        
+        Car updated = findById(id);
+        updated.setPlatenumber(car.getPlatenumber());
+        updated.setCarModel(car.getCarModel());
+        updated.setPrice(car.getPrice());
     }
 }
