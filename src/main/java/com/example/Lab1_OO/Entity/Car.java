@@ -1,5 +1,5 @@
 package com.example.Lab1_OO.Entity;
-import com.example.Lab1_OO.Service.CarService;
+import com.example.Lab1_OO.Service.CarServiceImpl;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -36,7 +36,7 @@ public class Car {
         char letter4 = (char) ('A' + random.nextInt(26));
         plateNumber = "" + letter1 + letter2 + "-" + number + "-" + letter3 + letter4;
 
-        CarService.cars.add(this);
+        CarServiceImpl.cars.add(this);
     }
 
     public Long getId() {
