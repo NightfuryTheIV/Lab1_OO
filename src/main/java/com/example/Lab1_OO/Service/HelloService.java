@@ -1,4 +1,4 @@
-package com.example.Lab1_OO;
+package com.example.Lab1_OO.Service;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,5 @@
-package com.example.Lab1_OO;
+package com.example.Lab1_OO.Service;
+import com.example.Lab1_OO.Entity.Car;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,20 +83,15 @@ public class CarService {
     @PutMapping(value = "/cars/{plateNumber}")
     public Car rentReturn(
             @PathVariable("plateNumber") String plateNumber,
-            @RequestParam(value="rent", required = true) boolean rent,
-            @RequestBody Dates dates) {
+            @RequestParam(value="rent", required = true) boolean rent) {
 
         for (Car car : cars){
             if (Objects.equals(plateNumber, car.getPlatenumber())){
 
                 if (rent) {
-
-                    car.setAvailable(false);
-                    car.setIfRented(dates);
+                    car.makeNewContract();
                 } else {
-
-                    car.setAvailable(true);
-                    car.resetDates();
+                    car.terminateContract();
                 }
                 return car;
             }
