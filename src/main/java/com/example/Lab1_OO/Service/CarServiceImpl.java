@@ -1,9 +1,8 @@
 package com.example.Lab1_OO.Service;
 
 import com.example.Lab1_OO.Entity.Car;
-import com.example.Lab1_OO.Entity.CarModel;
-import com.example.Lab1_OO.Exception.CarAlreadyExistsException;
-import com.example.Lab1_OO.Exception.InvalidPlateException;
+import com.example.Lab1_OO.Exception.AlreadyExistsException;
+import com.example.Lab1_OO.Exception.InvalidEntryException;
 import com.example.Lab1_OO.Repository.CarRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +22,7 @@ public class CarServiceImpl implements CarService {
     public Car createCar(String plate, String brand, String model) {
         checkPlateCorrectness(plate);
         checkPlateAvailability(plate);
-        CarModel temp = new CarModel(brand, model);
-        Car newCar = new Car(plate, temp);
+        Car newCar = new Car(plate, brand, model);
         carRepository.save(newCar);
         return newCar;
     }
@@ -32,14 +30,14 @@ public class CarServiceImpl implements CarService {
     private void checkPlateAvailability(String plate) {
         if (carRepository.existsByPlateNumber(plate)) {
             log.warn("Attempting to create a car with an already assigned plate.");
-            throw new CarAlreadyExistsException(plate);
+            throw new AlreadyExistsException("Plate already exists.");
         }
     }
 
     private void checkPlateCorrectness(String plate) {
         if (plate == null || plate.isBlank()) {
             log.warn("Attempting to create a car with no plate number.");
-            throw new InvalidPlateException("Invalid plate number.");
+            throw new InvalidEntryException("Invalid plate number.");
         }
     }
 
@@ -60,9 +58,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car rentReturn(String plateNumber, boolean rent) {
-
         Car car = plateNumberFind(plateNumber);
-
         if (car == null) {
             return null;
         }
@@ -74,7 +70,6 @@ public class CarServiceImpl implements CarService {
         }
 
         carRepository.save(car);
-
         return car;
     }
 
@@ -87,7 +82,8 @@ public class CarServiceImpl implements CarService {
         }
 
         updated.setPlatenumber(car.getPlatenumber());
-        updated.setCarModel(car.getCarModel());
+        updated.setBrand(car.getBrand());
+        updated.setModel(car.getModel());
         updated.setPrice(car.getPrice());
 
         carRepository.save(updated);

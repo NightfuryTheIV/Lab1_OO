@@ -1,25 +1,27 @@
 package com.example.Lab1_OO.Entity;
-import com.example.Lab1_OO.Service.CarServiceImpl;
 
-import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "CARS")
 public class Car {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
     @SequenceGenerator(name = "car_seq", sequenceName = "car_id_seq", allocationSize = 1)
     private Long id;
 
+    private String brand;
+    private String model;
     private String plateNumber;
     private int price;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_model_id")
-    private CarModel carModel;
+    private boolean rented;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rent> contractHistory = new ArrayList<>();
@@ -36,21 +38,30 @@ public class Car {
         char letter4 = (char) ('A' + random.nextInt(26));
         plateNumber = "" + letter1 + letter2 + "-" + number + "-" + letter3 + letter4;
 
-        carModel = new CarModel();
-        carModel.getId();
+        List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
+        brand = possiblebrands.get(random.nextInt(possiblebrands.size()));
+        model = "TBD";
+        rented = false;
     }
 
     public Car(String plateNumber) {
         price = ThreadLocalRandom.current().nextInt(100000, 500000);
 
         this.plateNumber = plateNumber;
-        this.carModel = new CarModel();
+
+        List<String> possiblebrands = Arrays.asList("Koeniggsegg", "Lotus", "Chevrolet", "Alpine", "Hennessey", "Trion", "Lamborghini", "Mercedes-Benz", "Buick", "Porsche");
+        Random random = new Random();
+        brand = possiblebrands.get(random.nextInt(possiblebrands.size()));
+        model = "TBD";
+        rented = false;
     }
 
-    public Car(String plateNumber, CarModel carModel) {
+    public Car(String plateNumber, String brand, String model) {
         price = ThreadLocalRandom.current().nextInt(100000, 500000);
         this.plateNumber = plateNumber;
-        this.carModel = carModel;
+        this.brand = brand;
+        this.model = model;
+        rented = false;
     }
 
     public Long getId() {
@@ -77,60 +88,46 @@ public class Car {
         this.price = price;
     }
 
-    public CarModel getCarModel() {
-        return carModel;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setCarModel(CarModel carModel) {
-        this.carModel = carModel;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public boolean isRent() throws Exception {
-        int activecounter = 0;
-        for (Rent rent : contractHistory) {
-            System.out.println(rent.getStatus());
-            if (Objects.equals(rent.getStatus(), "ACTIVE")) {
-                activecounter++;
-            }
-        }
+    public String getModel() {
+        return model;
+    }
 
-        if (activecounter == 0) {
-            return false;
-        } else if (activecounter == 1) {
-            return true;
-        } else {
-            throw new Exception("ERROR: Car is being rented by two users at once.");
-        }
+    public void setModel(String model) {
+        this.model = model;
     }
 
     @Override
     public String toString() {
-        if (carModel == null) {
+        if (Objects.equals(model, "TBD")) {
             return "<p>plateNumber: " + plateNumber +
                     "</br>brand: No model assigned" +
                     "</br>price: " + price + " €</p>";
         }
 
-        try {
-            if (this.isRent()) {
-                return "<p>plateNumber: " + plateNumber +
-                        "</br>brand: " + carModel.getBrand() +
-                        "</br>price: " + price + " €</p>" +
-                        "</br>rented? " + "yes";
-            } else {
-                return "<p>plateNumber: " + plateNumber +
-                        "</br>brand: " + carModel.getBrand() +
-                        "</br>price: " + price + " €</p>" +
-                        "</br>rented? " + " no";
-            }
-        } catch (Exception e) {
-            System.err.println("ERROR: Car is being rented by two users at once.");
+        if (this.rented) {
+            return "<p>plateNumber: " + plateNumber +
+                    "</br>brand: " + brand +
+                    "</br>price: " + price + " €</p>" +
+                    "</br>rented? " + "yes";
+        } else {
+            return "<p>plateNumber: " + plateNumber +
+                    "</br>brand: " + brand +
+                    "</br>price: " + price + " €</p>" +
+                    "</br>rented? " + " no";
         }
-        return null;
     }
 
     public void makeNewContract() {
         contractHistory.add(new Rent());
+        rented = true;
     }
 
     public void terminateContract() { // purposefully terminates all the contracts since only one should be active anyway
@@ -139,5 +136,6 @@ public class Car {
                 rent.setStatus("INACTIVE");
             }
         }
+        rented = false;
     }
 }

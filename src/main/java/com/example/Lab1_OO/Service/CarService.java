@@ -2,8 +2,6 @@ package com.example.Lab1_OO.Service;
 
 import com.example.Lab1_OO.Entity.Car;
 
-import java.util.List;
-
 public interface CarService {
     Iterable<Car> getCars();
     Car createCar(String plate, String brand, String model);

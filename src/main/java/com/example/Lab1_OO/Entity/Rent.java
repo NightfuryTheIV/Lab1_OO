@@ -4,23 +4,24 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "RENTS")
 public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String status;
-    private LocalDateTime contractDate;
+    private LocalDateTime startDate;
 
     @ManyToOne
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "CAR_ID")
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "CLIENT_ID")
     private Client client;
 
     public Rent() {
-        contractDate = LocalDateTime.now();
+        startDate = LocalDateTime.now();
         status = "ACTIVE";
     }
 
@@ -40,12 +41,12 @@ public class Rent {
         this.status = status;
     }
 
-    public LocalDateTime getContractDate() {
-        return contractDate;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setContractDate(LocalDateTime contractDate) {
-        this.contractDate = contractDate;
+    public void setStartDate(LocalDateTime contractDate) {
+        this.startDate = contractDate;
     }
 
     public Client getClient() {
@@ -57,6 +58,6 @@ public class Rent {
     }
 
     public String getCarInfo() {
-        return car.getCarModel().getBrand() + " " + car.getCarModel().getModel() + ": " + car.getPrice() + " €";
+        return car.getBrand() + " " + car.getModel() + ": " + car.getPrice() + " €";
     }
 }

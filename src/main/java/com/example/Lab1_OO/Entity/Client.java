@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "CLIENTS")
 public class Client {
 
     // Attributes
@@ -18,8 +18,6 @@ public class Client {
     private String username;
     private String userMail;
 
-    // OneToMany towards AttemptJPA
-    // An User can have multiple Attempts
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Rent> contractHistory = new ArrayList<>();
