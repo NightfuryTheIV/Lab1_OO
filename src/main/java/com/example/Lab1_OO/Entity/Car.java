@@ -38,8 +38,19 @@ public class Car {
 
         carModel = new CarModel();
         carModel.getId();
+    }
 
-        CarServiceImpl.cars.add(this);
+    public Car(String plateNumber) {
+        price = ThreadLocalRandom.current().nextInt(100000, 500000);
+
+        this.plateNumber = plateNumber;
+        this.carModel = new CarModel();
+    }
+
+    public Car(String plateNumber, CarModel carModel) {
+        price = ThreadLocalRandom.current().nextInt(100000, 500000);
+        this.plateNumber = plateNumber;
+        this.carModel = carModel;
     }
 
     public Long getId() {
@@ -74,6 +85,24 @@ public class Car {
         this.carModel = carModel;
     }
 
+    public boolean isRent() throws Exception {
+        int activecounter = 0;
+        for (Rent rent : contractHistory) {
+            System.out.println(rent.getStatus());
+            if (Objects.equals(rent.getStatus(), "ACTIVE")) {
+                activecounter++;
+            }
+        }
+
+        if (activecounter == 0) {
+            return false;
+        } else if (activecounter == 1) {
+            return true;
+        } else {
+            throw new Exception("ERROR: Car is being rented by two users at once.");
+        }
+    }
+
     @Override
     public String toString() {
         if (carModel == null) {
@@ -82,9 +111,22 @@ public class Car {
                     "</br>price: " + price + " €</p>";
         }
 
-        return "<p>plateNumber: " + plateNumber +
-                "</br>brand: " + carModel.getBrand() +
-                "</br>price: " + price + " €</p>";
+        try {
+            if (this.isRent()) {
+                return "<p>plateNumber: " + plateNumber +
+                        "</br>brand: " + carModel.getBrand() +
+                        "</br>price: " + price + " €</p>" +
+                        "</br>rented? " + "yes";
+            } else {
+                return "<p>plateNumber: " + plateNumber +
+                        "</br>brand: " + carModel.getBrand() +
+                        "</br>price: " + price + " €</p>" +
+                        "</br>rented? " + " no";
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR: Car is being rented by two users at once.");
+        }
+        return null;
     }
 
     public void makeNewContract() {

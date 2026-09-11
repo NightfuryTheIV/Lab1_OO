@@ -1,15 +1,16 @@
 package com.example.Lab1_OO.Repository;
 
 import com.example.Lab1_OO.Entity.Car;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface CarRepository {
+public interface CarRepository extends CrudRepository<Car, Long> {
 
-    Car findById(int id);
+    Car findById(long id);
     Car findByPlateNumber(String plateNumber);
     List<Car> findAll();
-    boolean existsById(int id);
+    boolean existsById(long id);
     boolean existsByPlateNumber(String plateNumber);
-    void save(Car car);
+    Car save(Car car);
 }

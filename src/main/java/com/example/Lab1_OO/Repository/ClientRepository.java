@@ -1,9 +1,8 @@
 package com.example.Lab1_OO.Repository;
 
-import com.example.Lab1_OO.Entity.Rent;
+import com.example.Lab1_OO.Entity.Client;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
-public interface ClientRepository {
-    List<Rent> getContractHistory();
+public interface ClientRepository extends CrudRepository<Client, Long> {
+    Iterable<Client> findAll();
 }

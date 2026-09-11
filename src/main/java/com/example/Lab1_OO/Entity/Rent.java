@@ -15,6 +15,10 @@ public class Rent {
     @JoinColumn(name = "car_id")
     private Car car;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
     public Rent() {
         contractDate = LocalDateTime.now();
         status = "ACTIVE";
@@ -42,6 +46,14 @@ public class Rent {
 
     public void setContractDate(LocalDateTime contractDate) {
         this.contractDate = contractDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getCarInfo() {
